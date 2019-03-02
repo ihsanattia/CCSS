@@ -1,0 +1,104 @@
+extends default
+
+block scripts
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+	script.
+		var allowSave = true;
+		
+		function select(type) {
+			if(type == 1) {
+				var values = $('#availableDropdown').val();
+				for(var i=0; i<values.length; i++) {
+					$('#coverDropdown').append($('<option></option>').text(values[i]));
+				}
+				$('#availableDropdown').find(":selected").remove();
+			}
+			
+			if(type == 0) {
+				var values = $('#coverDropdown').val();
+				for(var i=0; i<values.length; i++) {
+					$('#availableDropdown').append($('<option></option>').text(values[i]));
+				}
+				$('#coverDropdown').find(":selected").remove();
+			}
+			
+			if($("#coverDropdown option").length == 0){
+				allowSave = false;
+			} else {
+				allowSave = true;
+			}
+		}
+
+		function save() {
+			if(allowSave === true) {
+				var cover = 
+				{
+					date : "#{date}",
+					year : "#{year}",
+					subject : "#{subject}",
+					teachers : []
+				};
+				
+				$("#coverDropdown option").each(function() {
+					cover.teachers.push({"name" : $(this).text()});
+				});
+							
+				$.ajax({
+					type: 'POST',
+					url: '/server',
+					contentType: 'application/json',
+					data: JSON.stringify(cover),
+					success: function (result) {
+						if(result.status == 200) {
+							alert('Cover updated successfully.');
+						}
+					},
+					error: function(result) {
+						alert('Cover failed to be updated. Please raise to management.');
+					}
+				});
+
+			} else {
+				alert('There is no cover available for this class, therefore you cannot save. Please arrange for cover for this class.');
+			}
+		}
+		
+		function back() {
+			location.href = './Attendance?date=' + "#{date}";
+		}
+
+block content
+	div.form
+		div.label
+			label.heading Date 
+			label #{date}
+		div.label
+			label.heading Year 
+			label #{year}
+		div.label
+			label.heading Subject 
+			label #{subject}			
+
+		table
+			tr
+				th Available
+				th
+				th Cover
+			tr
+				td
+					select#availableDropdown(multiple="multiple")
+						each teacher in teachers
+							unless(cover && cover.find(c => c.name === teacher.name))
+								option(value=teacher.name) #{teacher.name}
+				td
+					button.form(type='button' onclick='select(1)') >
+					br
+					button.form(type='button' onclick='select(0)') <
+				td
+					select#coverDropdown(multiple="multiple")
+						each teacher in cover
+							option #{teacher.name}
+
+		div
+			button.form(type='button' onclick='back()') Back
+			button.form(type='button' onclick='save()') Submit

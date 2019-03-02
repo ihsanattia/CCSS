@@ -1,0 +1,9 @@
+{
+	"s3" : 
+			{
+				"awsId"			: "AKIAJQMMS6B6LLIWTNAQ",
+				"awsSecretKey"	: "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",
+				"bucket"		: "ccssdata",
+				"env"			: "prod"
+			}
+}

@@ -1,0 +1,35 @@
+extends default
+
+block scripts
+	script.
+		function back() {
+			location.href = './';
+		}	
+
+block content
+	h2 Cover for #{date}
+
+	table#attendance
+		tr
+			th Year
+			th Subject
+			th Cover
+			th
+		each cover in covers
+			tr
+				td.year
+					if(cover.year === "A-Level")
+						| #{cover.year}
+					else
+						| Year #{cover.year}
+				td.subject
+					| #{cover.subject}
+				td
+					each teacher in cover.teachers
+						| #{teacher.name}
+						br
+				td.edit
+					a(href='/updateavailability?date=' + date + '&year='+ cover.year + '&subject=' + cover.subject) Update
+
+	div
+		button.form(type='button' onclick='back()') Back

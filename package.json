@@ -1,0 +1,19 @@
+{
+  "name": "CCSS",
+  "version": "1.0.0",
+  "description": "CCSS Website",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "4.6.0"
+  },
+  "dependencies": {
+	"aws-sdk": "2.409.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-favicon": "2.0.0",
+    "pug": "^2.0.3"
+  }
+}
