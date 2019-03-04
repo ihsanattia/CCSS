@@ -57,19 +57,34 @@ s3.getObject(getParams, function (err, data) {
 function getEvents() {
 	var events = [];
 	for(var i=0; i<schoolDates.dates.length; i++) {
-		var eventData = 
-		{
-			title: 'View Attendance',
-			url: '/Attendance?date='+schoolDates.dates[i].date,
-			start: formatDate(new Date(schoolDates.dates[i].date))
-		};
-		events.push(eventData);
+		var eventData;
+		if(schoolDates.dates[i].type === 'cover') {
+			eventData = 
+			{
+				title: 'View Cover',
+				url: '/Attendance?date='+schoolDates.dates[i].date,
+				start: formatDate(new Date(schoolDates.dates[i].date))
+			};
+		}
+		if(schoolDates.dates[i].type === 'break') {
+			eventData = 
+			{
+				title: schoolDates.dates[i].text,
+				start: formatDate(new Date(schoolDates.dates[i].date))
+			};
+		}
+		
+		if(eventData) {
+			events.push(eventData);
+		}
 	}
 	return events;
 }
 
 function getTeachers() {
-	return teachers.teachers;
+	return teachers.teachers.sort(function(a, b) { 
+			return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 0;
+		});
 }
 
 function formatDate(date) {
@@ -171,8 +186,8 @@ function saveCover(data) {
 			var putParams = {
 				Body: JSON.stringify(savedCovers),
 				ServerSideEncryption: 'AES256',
-				Bucket: bucket,
-				Key: env + '/covers.json'
+				Bucket: config.s3.bucket,
+				Key: config.s3.env + '/covers.json'
 			};
 			s3.putObject(putParams, function(err, data) {
 				if (err) {
