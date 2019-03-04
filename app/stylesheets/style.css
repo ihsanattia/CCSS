@@ -78,6 +78,10 @@ div.label {
   padding: 4px;
 }
 
+.alert{
+  display:none;
+}
+
 #calendar {
   max-width: 900px;
   margin: 0 auto;
