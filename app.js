@@ -36,7 +36,6 @@ app.get('/UpdateAvailability', function(req, res){
 });
 
 app.post('/server',function(req, res){
-	console.log('here');
 	const data = req.body;
 	if(controller.saveCover(data) == true) {
 		res.json({success : 'Updated Successfully', status : 200});
@@ -63,7 +62,7 @@ const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(process.env.PORT || 3000, () => {
-	console.log('HTTP Server running on port 8080');
+	console.log('HTTP Server running on port ' + (process.env.PORT || 3000));
 });
 
 httpsServer.listen(8443, () => {
