@@ -63,14 +63,16 @@ function getEvents() {
 			{
 				title: 'View Cover',
 				url: '/Attendance?date='+schoolDates.dates[i].date,
-				start: formatDate(new Date(schoolDates.dates[i].date))
+				start: formatDate(new Date(schoolDates.dates[i].date)),
+				backgroundColor: '#4C8472'
 			};
 		}
 		if(schoolDates.dates[i].type === 'break') {
 			eventData = 
 			{
 				title: schoolDates.dates[i].text,
-				start: formatDate(new Date(schoolDates.dates[i].date))
+				start: formatDate(new Date(schoolDates.dates[i].date)),
+				backgroundColor: '#f2f2f2'
 			};
 		}
 		
