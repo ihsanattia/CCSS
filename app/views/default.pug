@@ -3,8 +3,11 @@ html
 	head
 		title City Circle Saturday School
 		meta(charset="UTF-8")
+		meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
 		block links
+		link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
 		link(rel='stylesheet' href='/stylesheets/style.css')
 		block scripts
 	body
-		block content
+		div.container-fluid
+			block content

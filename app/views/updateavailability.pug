@@ -2,6 +2,7 @@ extends default
 
 block scripts
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
 	script.
 		var allowSave = true;
 		
@@ -22,7 +23,7 @@ block scripts
 				$('#coverDropdown').find(":selected").remove();
 			}
 			
-			if($("#coverDropdown option").length == 0){
+			if($('#coverDropdown option').length == 0){
 				allowSave = false;
 			} else {
 				allowSave = true;
@@ -50,16 +51,18 @@ block scripts
 					data: JSON.stringify(cover),
 					success: function (result) {
 						if(result.status == 200) {
-							alert('Cover updated successfully.');
+							$('#alertSuccess').fadeOut().fadeIn('medium');
+						} else if(result.status == 404) {
+							$('#alertFailed').fadeOut().fadeIn('medium');
 						}
 					},
-					error: function(result) {
-						alert('Cover failed to be updated. Please raise to management.');
+					error: function(result, exception) {
+						$('#alertFailed').fadeOut().fadeIn('medium');
 					}
 				});
 
 			} else {
-				alert('There is no cover available for this class, therefore you cannot save. Please arrange for cover for this class.');
+				$('#alertEmpty').fadeOut().fadeIn('medium');
 			}
 		}
 		
@@ -69,6 +72,14 @@ block scripts
 
 block content
 	div.form
+	
+		div#alertSuccess.alert.alert-success(role="alert") Cover updated successfully.
+			button.close(type="button" onclick="$('#alertSuccess').fadeOut()") &times;
+		div#alertFailed.alert.alert-danger(role="alert") Cover failed to be updated. Please raise to management.
+			button.close(type="button" onclick="$('#alertFailed').fadeOut()") &times;
+		div#alertEmpty.alert.alert-danger(role="alert") There are no cover available for this class, therefore you cannot save. Please arrange cover for this class.
+			button.close(type="button" onclick="$('#alertEmpty').fadeOut()") &times;
+
 		div.label
 			label.heading Date 
 			label #{date}
@@ -86,16 +97,16 @@ block content
 				th Cover
 			tr
 				td
-					select#availableDropdown(multiple="multiple")
+					select#availableDropdown.selectpicker(multiple="multiple")
 						each teacher in teachers
 							unless(cover && cover.find(c => c.name === teacher.name))
 								option(value=teacher.name) #{teacher.name}
 				td
-					button.form(type='button' onclick='select(1)') >
+					button.form(type='button' onclick='select(1)') &gt;
 					br
-					button.form(type='button' onclick='select(0)') <
+					button.form(type='button' onclick='select(0)') &lt;
 				td
-					select#coverDropdown(multiple="multiple")
+					select#coverDropdown.selectpicker(multiple="multiple")
 						each teacher in cover
 							option #{teacher.name}
 
