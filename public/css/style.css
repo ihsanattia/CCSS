@@ -1,0 +1,88 @@
+body {
+  margin: 40px 10px;  
+  padding: 0;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#attendance {
+  border-collapse: collapse;
+  width: 80%;
+}
+
+#attendance td, #attendance th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#attendance tr:nth-child(even){background-color: #f2f2f2;}
+
+#attendance tr:hover {background-color: #ddd;}
+
+#attendance th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4C8472;
+  color: white;
+}
+
+td.year {
+  width: 15%;
+}
+
+td.subject {
+  width: 15%;
+}
+
+td.edit {
+  width: 5%;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button.form {
+  background-color: #4C8472;
+  color: white;
+  padding: 5px;
+  margin: 4px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+button.form:hover {
+  background-color: #45a049;
+}
+
+label.heading {
+  font-weight: bold;
+}
+
+div.form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+div.label {
+  border-radius: 1px;
+  background-color: #f2f2f2;
+  padding: 4px;
+}
+
+.alert{
+  display:none;
+}
+
+#calendar {
+  max-width: 900px;
+  margin: 0 auto;
+}

@@ -8,7 +8,7 @@
 const app = express();
 app.set('views', __dirname + '/app/views');
 app.set('view engine', 'pug');
-app.use(express.static(__dirname + '/app', { dotfiles: 'allow' }));
+app.use(express.static(__dirname + '/public', { dotfiles: 'allow' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
