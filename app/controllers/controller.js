@@ -90,12 +90,24 @@ function getTeachers() {
 }
 
 function formatDate(date) {
-	var day = ("0" + date.getDate()).slice(-2);
-	var month = ("0" + (date.getMonth() + 1)).slice(-2);
-	var year = date.getFullYear();
+	var d = new Date(date);
+	var day = ("0" + d.getDate()).slice(-2);
+	var month = ("0" + (d.getMonth() + 1)).slice(-2);
+	var year = d.getFullYear();
 
 	return year + '-' + month + '-' + day;
-}	
+}
+
+function formatDateDisplay(date) {
+	var d = new Date(date);
+	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	var day = d.getDate();
+	var monthIndex = d.getMonth();
+	var year = d.getFullYear();
+
+	return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
 
 function deriveCovers(date) {
 	var covers = []
@@ -143,10 +155,11 @@ function deriveCover(date, year, subject) {
 function saveCover(data) {
 	var success = false;
 	try {
-		var date = data.date;
+		var date = formatDate(data.date);
 		var year = data.year;
 		var subject = data.subject;
 		var teachers = data.teachers;
+		data.date = date;
 		
 		var cover = savedCovers.covers.find(c => c.date === date && c.year === year && c.subject === subject);
 		var defaultCover = defaultCovers.defaults.find(d => d.year === year && d.subject === subject);
@@ -213,3 +226,4 @@ exports.deriveCovers = deriveCovers;
 exports.deriveCover = deriveCover;
 exports.saveCover = saveCover;
 exports.getTeachers = getTeachers;
+exports.formatDateDisplay = formatDateDisplay;

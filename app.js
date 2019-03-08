@@ -20,14 +20,14 @@ app.get('/', function(req, res){
 
 app.get('/Attendance', function(req, res){
 	res.render('attendance', {
-		date : req.query.date,
+		date : controller.formatDateDisplay(req.query.date),
 		covers : controller.deriveCovers(req.query.date)
 	});
 });
 
 app.get('/UpdateAvailability', function(req, res){
 	res.render('updateavailability', {
-		date : req.query.date,
+		date : controller.formatDateDisplay(req.query.date),
 		year : req.query.year,
 		subject : req.query.subject,
 		teachers : controller.getTeachers(),
