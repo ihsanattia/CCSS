@@ -70,15 +70,28 @@ block scripts
 			location.href = './Attendance?date=' + "#{date}";
 		}
 
+		$(document).ready(function() {
+			var date = "!{date}";
+			var d = new Date(date);
+			var today = new Date();
+			
+			if(d < today) {
+				document.getElementById("btnsubmit").disabled = true;
+				$('#alertPast').fadeOut().fadeIn('medium');
+			}
+		});
+		
+
 block content
 	div.form
-	
+
+		div#alertPast.alert.alert-warning(role="alert") This cover is for a past date. You will not be able to make changes to it.
 		div#alertSuccess.alert.alert-success(role="alert") Cover updated successfully.
 			button.close(type="button" onclick="$('#alertSuccess').fadeOut()") &times;
 		div#alertFailed.alert.alert-danger(role="alert") Cover failed to be updated. Please raise to management.
 			button.close(type="button" onclick="$('#alertFailed').fadeOut()") &times;
 		div#alertEmpty.alert.alert-danger(role="alert") There are no cover available for this class, therefore you cannot save. Please arrange cover for this class.
-			button.close(type="button" onclick="$('#alertEmpty').fadeOut()") &times;
+			button.close(type="button" onclick="$('#alertEmpty').fadeOut()") &times;	
 
 		div.label
 			label.heading Date 
@@ -112,4 +125,4 @@ block content
 
 		div
 			button.form(type='button' onclick='back()') Back
-			button.form(type='button' onclick='save()') Submit
+			button#btnsubmit.form(type='button' onclick='save()') Submit
