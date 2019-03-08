@@ -62,8 +62,14 @@ button.form:hover {
   background-color: #45a049;
 }
 
+th.update {
+  text-align: center;
+}
+
 label.heading {
   font-weight: bold;
+  margin-right: 10px;
+  min-width: 60px;
 }
 
 div.form {
@@ -75,12 +81,11 @@ div.form {
 div.label {
   border-radius: 1px;
   background-color: #f2f2f2;
-  padding: 4px;
 }
 
 .selectpicker {
-	min-width: 200px;
-	max-width: 200px;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 .alert{
