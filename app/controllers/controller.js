@@ -4,55 +4,33 @@ const config = require('./../config/config.json'),
 	
 const s3 = new aws.S3({ accessKeyId: config.s3.awsId, secretAccessKey: config.s3.awsSecretKey });
 
-var schoolDates, defaultCovers, savedCovers, teachers;
+var schoolDates, defaultCovers,	savedCovers, teachers;
+getAllStaticData();
 
-var getParams = {
-	Bucket: config.s3.bucket,
-	Key: config.s3.env + '/dates.json'
-}	
-s3.getObject(getParams, function (err, data) {
-	if (err) {
-		console.log(err);
-	} else {
-		 schoolDates = JSON.parse(data.Body.toString());
-	}
-})
+async function getAllStaticData() {
+	schoolDates = await getStaticData('dates');
+	defaultCovers = await getStaticData('defaultCover');
+	savedCovers = await getStaticData('covers');
+	teachers = await getStaticData('teachers');
+}
 
-getParams = {
-	Bucket: config.s3.bucket,
-	Key: config.s3.env + '/defaultCover.json'
-}	
-s3.getObject(getParams, function (err, data) {
-	if (err) {
-		console.log(err);
-	} else {
-		 defaultCovers = JSON.parse(data.Body.toString());
-	}
-})
+async function getStaticData(dataset) {
+	try {	
+		var getParams = {
+			Bucket: config.s3.bucket,
+			Key: config.s3.env + '/' + dataset + '.json'
+		}
 
-getParams = {
-	Bucket: config.s3.bucket,
-	Key: config.s3.env + '/covers.json'
-}	
-s3.getObject(getParams, function (err, data) {
-	if (err) {
-		console.log(err);
-	} else {
-		 savedCovers = JSON.parse(data.Body.toString());
-	}
-})	
+		let data = await s3.getObject(getParams).promise();
+		
+		console.log('S3 GetObject for ' + dataset + '.json Static Data Success');
 
-getParams = {
-	Bucket: config.s3.bucket,
-	Key: config.s3.env + '/teachers.json'
-}	
-s3.getObject(getParams, function (err, data) {
-	if (err) {
-		console.log(err);
-	} else {
-		 teachers = JSON.parse(data.Body.toString());
+		return JSON.parse(data.Body.toString());
+	} catch(error) {
+		console.log('S3 GetObject for ' + dataset + '.json Static Data Failed');
+		console.log(error);		
 	}
-})	
+}
 
 function getEvents() {
 	var events = [];
@@ -204,11 +182,14 @@ function saveCover(data) {
 				Bucket: config.s3.bucket,
 				Key: config.s3.env + '/covers.json'
 			};
-			s3.putObject(putParams, function(err, data) {
-				if (err) {
-					console.log(err, err.stack);
-				}
+			var putObjectPromise = s3.putObject(putParams).promise();
+			putObjectPromise.then(function(data) {
+				console.log('S3 PutObject Call Success');
+			}).catch(function(error) {
+				console.log('S3 PutObject Call Failed');
+				console.log(error);
 			});
+
 		}
 		success = true;
 	}
