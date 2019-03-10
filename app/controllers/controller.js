@@ -88,19 +88,20 @@ function formatDateDisplay(date) {
 }
 
 function deriveCovers(date) {
+	var formattedDate = formatDate(date);
 	var covers = []
 	
 	for(var i=0; i<defaultCovers.defaults.length; i++) {
 		
 		var defaultCover = defaultCovers.defaults[i];
-		var cover = savedCovers.covers.find(c => c.date === date && c.year === defaultCover.year && c.subject === defaultCover.subject);
+		var cover = savedCovers.covers.find(c => c.date === formattedDate && c.year === defaultCover.year && c.subject === defaultCover.subject);
 
 		if(cover) {
 			covers.push(cover);
 		} else {
 			cover = 
 			{
-				date : date,
+				date : formattedDate,
 				year : defaultCover.year,
 				subject : defaultCover.subject,
 				teachers : [{name : defaultCover.teacher}]
@@ -114,9 +115,10 @@ function deriveCovers(date) {
 }
 
 function deriveCover(date, year, subject) {
+	var formattedDate = formatDate(date);
 	var covers;
 	
-	var cover = savedCovers.covers.find(c => c.date === date && c.year === year && c.subject === subject);
+	var cover = savedCovers.covers.find(c => c.date === formattedDate && c.year === year && c.subject === subject);
 
 	if(cover) {
 		return cover.teachers;
