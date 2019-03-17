@@ -18,7 +18,7 @@ block content
 		each cover in covers
 			tr
 				td.year
-					if(cover.year === "A-Level")
+					if(cover.year === "A-Level" || cover.year === "Management")
 						| #{cover.year}
 					else
 						| Year #{cover.year}
