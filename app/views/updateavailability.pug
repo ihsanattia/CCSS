@@ -75,7 +75,7 @@ block scripts
 			var d = new Date(date);
 			var today = new Date();
 			
-			if(d < today) {
+			if(d <= today) {
 				document.getElementById("btnsubmit").disabled = true;
 				$('#alertPast').fadeOut().fadeIn('medium');
 			}
